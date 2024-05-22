@@ -69,12 +69,24 @@ public class AppStep2Retrieval {
         //  Can you answer the question based on the retrieved chunk?
         //  (Use the retrieve method of RetrievalStrategy with 'maxResults' property 1)
         // BEGIN SOLUTION
-
+        String query = "What is an alternative to keyword search?";
+        RetrievalOutput retrievalOutput = retrievalStrategy.retrieve(query, 1);
+        for (RetrievalOutput.RetrievalOutputItem item : retrievalOutput.getItems()) {
+            System.out.println("ChunkId: " + item.getChunkId());
+            System.out.println("Text: " + item.getText());
+            System.out.println("------------------------------");
+        }
         // END
 
         // TODO 2: Now use the WindowRetrievalStrategy, what size of the window would you use to answer the question?
         // BEGIN SOLUTION
-
+        retrievalStrategy = new WindowRetrievalStrategy(contentStore, 2);
+        retrievalOutput = retrievalStrategy.retrieve(query, 1);
+        for (RetrievalOutput.RetrievalOutputItem item : retrievalOutput.getItems()) {
+            System.out.println("ChunkId: " + item.getChunkId());
+            System.out.println("Text: " + item.getText());
+            System.out.println("------------------------------");
+        }
         // END
 
 
@@ -89,14 +101,23 @@ public class AppStep2Retrieval {
         // TODO 3: Retrieve the first chunk of the document with the id "using-ai-to-save-time-and-sanity"
         //  How many chunks does the document have?
         // BEGIN SOLUTION
-
+        Chunk chunk = retriever.getChunk("using-ai-to-save-time-and-sanity", 0);
+        System.out.println("---------------------------");
+        System.out.println("Total chunks: " + chunk.getTotalChunks());
         // END
 
         // TODO 4: Retrieve the four best matching chunks for the query "Wie heeft het over zoek technologie?".
         //  Use the window retrieval strategy with a window size of 2.
         //  Can you answer the question from the retrieved chunks?
         // BEGIN SOLUTION
-
+        query = "Wie heeft het over zoek technologie?";
+        retrievalStrategy = new WindowRetrievalStrategy(contentStore, 2);
+        retrievalOutput = retrievalStrategy.retrieve(query, 4);
+        for (RetrievalOutput.RetrievalOutputItem item : retrievalOutput.getItems()) {
+            System.out.println("ChunkId: " + item.getChunkId());
+            System.out.println("Text: " + item.getText());
+            System.out.println("------------------------------");
+        }
         // END
     }
 }

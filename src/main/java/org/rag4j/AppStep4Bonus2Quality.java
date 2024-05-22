@@ -94,8 +94,20 @@ public class AppStep4Bonus2Quality {
 
         question = "Who are the people presenting the workshop about a q&a system?";
         // BEGIN SOLUTION
+        RetrievalStrategy retrievalStrategy = new DocumentRetrievalStrategy(weaviateRetriever);
+        context = retrievalStrategy.retrieve(question, 1).constructContext();
+        answer = answerGenerator.generateAnswer(question, context);
 
-        // END
+        System.out.printf("Question: %s%n", question);
+        System.out.printf("Context: %s%n", context);
+        System.out.printf("Answer: %s%n", answer);
+
+        answerToQuestionQuality = answerQuality.determineQualityOfAnswerToQuestion(observer);
+        System.out.printf("Answer to Question Quality: %s - Reason: %s%n", answerToQuestionQuality.getQuality(), answerToQuestionQuality.getReason());
+        answerFromContextQuality = answerQuality.determineQualityAnswerFromContext(observer);
+        System.out.printf("Answer from Context Quality: %s - Reason: %s%n", answerFromContextQuality.getQuality(), answerFromContextQuality.getReason());
+
         RAGTracker.cleanup();
+        // END
     }
 }

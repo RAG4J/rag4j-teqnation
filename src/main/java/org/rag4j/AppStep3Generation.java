@@ -42,7 +42,9 @@ public class AppStep3Generation {
         // TODO 1: Generate an answer using the answerGenerator. Use the question and context variables.
         //  Does the result answer the question?
         // BEGIN SOLUTION
-
+        String answer = answerGenerator.generateAnswer(question, context);
+        System.out.println("Question: " + question);
+        System.out.println("Answer: " + answer);
         // END
 
 
@@ -63,7 +65,10 @@ public class AppStep3Generation {
         // TODO 2: Generate an answer using the answerGenerator, the obtained context and the question.
         //  Did it find an answer? If not, why not? What can you do?
         // BEGIN SOLUTION
-
+        answer = answerGenerator.generateAnswer(question, context);
+        System.out.println("Question: " + question);
+        System.out.println("Context: " + context);
+        System.out.println("Answer: " + answer);
         // END
 
         // TODO 3: Play around with the different components, ask other questions, choose other strategy, etc

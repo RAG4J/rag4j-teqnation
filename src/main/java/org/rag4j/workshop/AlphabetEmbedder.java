@@ -31,8 +31,10 @@ public class AlphabetEmbedder implements Embedder {
      */
     @Override
     public List<Float> embed(String text) {
+        // TODO implement this method, use the test class to verify your implementation
 
         float[] counts = new float[26];
+        // solution
         text = stripDiacritics(text.toLowerCase());
 
         for (char c : text.toCharArray()) {
@@ -40,6 +42,7 @@ public class AlphabetEmbedder implements Embedder {
                 counts[c - 'a']++;
             }
         }
+        // end of solution
         List<Float> list = new ArrayList<>();
         for (float value : counts) {
             list.add(value);

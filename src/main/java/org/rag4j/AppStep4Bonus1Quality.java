@@ -63,7 +63,14 @@ public class AppStep4Bonus1Quality {
         // TODO 1: Rewrite the embedder and the content store to use the OpenAIEmbedder and the WeaviateRetriever
         //  It is safe to skip if you have little time left. Did the quality improve? Why?
         // BEGIN SOLUTION
+        embedder = new OpenAIEmbedder(OpenAIFactory.obtainsClient(keyLoader.getOpenAIKey()));
+        WeaviateAccess weaviateAccess = new WeaviateAccess(keyLoader);
+        Retriever weaviateRetriever = new WeaviateRetriever(weaviateAccess, embedder, false, List.of("title", "time", "room", "speakers", "tags"));
+        retrievalQualityService = new RetrievalQualityService(weaviateRetriever);
+        retrievalQuality = retrievalQualityService.obtainRetrievalQuality(questionAnswerRecords, embedder);
 
+        System.out.println("Quality precision: " + retrievalQuality.getPrecision());
+        System.out.println("Total questions: " + (retrievalQuality.getCorrect().size() + retrievalQuality.getIncorrect().size()));
         // END
     }
 }

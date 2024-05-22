@@ -1,6 +1,5 @@
 package org.rag4j;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.rag4j.indexing.InputDocument;
@@ -61,11 +60,12 @@ public class AppStep1Ingestion {
          *** Splitting the content ***
          *****************************/
         Splitter splitter;
-        List<Chunk> chunks = new ArrayList<>();
+        List<Chunk> chunks;
 
         // TODO 1: Use the sentence splitter to split content into chunks.
         // BEGIN SOLUTION
-
+        splitter = new SentenceSplitter();
+        chunks = splitter.split(inputDocument);
         // END
 
         System.out.println("Number of chunks: " + chunks.size());
@@ -73,7 +73,9 @@ public class AppStep1Ingestion {
         // TODO 2: Print the text of the chunks to verify the sentences. We think 17 would be better.
         //  Spot the problem in the content that causes the splitter to create 16 chunks.
         // BEGIN SOLUTION
-
+        for (Chunk chunk : chunks) {
+            System.out.println(chunk.getText());
+        }
         // END
 
 
@@ -84,7 +86,8 @@ public class AppStep1Ingestion {
         List<Float> embedding = embedder.embed(chunks.get(0).getText());
         // TODO 3: Look at the embedding. What is the length of the embedding? How does the embedding work?
         // BEGIN SOLUTION
-
+        System.out.println(embedding);
+        System.out.println("Embedding size: " + embedding.size());
         // END
 
         InternalContentStore contentStore = new InternalContentStore(embedder);
@@ -94,7 +97,13 @@ public class AppStep1Ingestion {
         // TODO 4: Print the properties of the relevant chunks. What is your opinion on the results?
         //  Did you take a look at the scores?
         // BEGIN SOLUTION
-
+        for (RelevantChunk relevantChunk : relevantChunks) {
+            System.out.println("Document id: " + relevantChunk.getDocumentId());
+            System.out.println("Chunk id: " + relevantChunk.getChunkId());
+            System.out.println("Text: " + relevantChunk.getText());
+            System.out.println("Score: " + relevantChunk.getScore());
+            System.out.println("---------------------------------------");
+        }
         // END
 
         // TODO 5: Now try replacing the AlphabetEmbedder with the OnnxBertEmbedder.
